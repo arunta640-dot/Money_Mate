@@ -49,3 +49,17 @@ The Android 8+ adaptive icon now references a dedicated vector drawable
 (`drawable/ic_launcher_foreground.xml`) rather than referencing the launcher
 mipmap itself. This removes the recursive resource reference that caused the
 generic Android robot icon to appear. Legacy PNG launcher icons remain included.
+
+## Premium launcher artwork (v1.0.3)
+
+Added the premium MoneyMate wallet/coins/growth artwork as the Android launcher
+foreground and as a full-size brand asset in `assets/`. The adaptive icon points
+to `@drawable/ic_launcher_foreground`; legacy launcher density PNGs are updated.
+The version code is incremented to 4 for installing this build as an app update.
+
+## User-selected launcher icon (v1.0.4)
+
+The launcher icon has been replaced with the exact wallet image supplied by the
+user. The source crop is included at `assets/moneymate-user-selected-icon.png`.
+Adaptive and legacy density launcher resources are updated. Version code is 5
+so this APK can update the already installed MoneyMate app.
