@@ -35,3 +35,17 @@ You can also run the workflow manually from Actions > Build MoneyMate APK > Run 
 
 Java source/target compatibility and Kotlin JVM target are both set to Java 17
 to avoid the `Inconsistent JVM-target compatibility` error in GitHub Actions.
+
+## Launcher icon fix (v1.0.1)
+
+The adaptive launcher icon now uses a dedicated `drawable/ic_launcher_foreground.png`
+resource and a separate background color. This avoids the previous self-reference
+between `mipmap/ic_launcher.xml` and `mipmap/ic_launcher.png`. Version code is bumped
+to 2 so the new APK can update the installed app.
+
+## Launcher icon correction (v1.0.2)
+
+The Android 8+ adaptive icon now references a dedicated vector drawable
+(`drawable/ic_launcher_foreground.xml`) rather than referencing the launcher
+mipmap itself. This removes the recursive resource reference that caused the
+generic Android robot icon to appear. Legacy PNG launcher icons remain included.
