@@ -63,3 +63,11 @@ The launcher icon has been replaced with the exact wallet image supplied by the
 user. The source crop is included at `assets/moneymate-user-selected-icon.png`.
 Adaptive and legacy density launcher resources are updated. Version code is 5
 so this APK can update the already installed MoneyMate app.
+
+## Duplicate resource build fix (v1.0.5)
+
+The adaptive launcher icon now references the uniquely named drawable
+`@drawable/moneymate_icon_foreground`. This avoids a resource-name collision
+with any older `ic_launcher_foreground.xml` file that may still exist in a
+GitHub repository after uploading by replacement/merge. The selected wallet
+artwork and legacy launcher density icons are retained.
