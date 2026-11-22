@@ -30,3 +30,8 @@ You can also run the workflow manually from Actions > Build MoneyMate APK > Run 
 
 - `assets/moneymate-app-icon.png` is the full-size app icon artwork.
 - Android launcher icon sizes and the adaptive icon declaration are included under `app/src/main/res/`.
+
+## Build configuration note
+
+Java source/target compatibility and Kotlin JVM target are both set to Java 17
+to avoid the `Inconsistent JVM-target compatibility` error in GitHub Actions.
