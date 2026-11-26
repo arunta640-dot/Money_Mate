@@ -1,6 +1,30 @@
-# MoneyMate Android
+# MoneyMate 2.0
 
-A dark, offline-first personal finance tracker for Android. Supports Bahraini Dinar (BHD) and Indian Rupee (INR), manual exchange-rate conversion, income/expense entries, category budgets, savings goals, CSV export, and JSON backup/restore.
+A private, offline money manager for Android, built for people who earn in one currency and save or send money in another (for example BHD and INR).
+
+## What it does
+- **Accounts** in any currency (bank, savings, cash, card, wallet) with a combined net worth in your main currency
+- **Income, expenses and transfers.** Transfers between currencies record the amount actually received, so remittances keep their real rate
+- **Monthly budgets** with over-limit warnings, **savings goals** with a monthly target, and **recurring items** (rent, salary, subscriptions) recorded automatically
+- **Insights:** spending by category, six-month income vs spending, largest expenses, savings rate, average rate on money sent abroad
+- **Privacy:** optional PIN lock, hide balances, hide contents in recent apps and block screenshots
+- **Data ownership:** CSV export, JSON backup and restore through the Android file picker, undo on delete
+- Light, dark or automatic theme. Works with no internet and has no network permission.
+
+## Upgrading from v1
+Existing v1 data is migrated automatically the first time v2 opens (the old record is left untouched). Because v1 had no accounts, one account per currency is created ("Main account", "India account") starting at zero. Open each in Settings > Accounts and enter its real starting balance.
+
+## Project layout
+```
+app/src/main/assets/
+  index.html          shell
+  css/styles.css      themes and components
+  js/core.js          data model, FX, migration, recurring engine, export (no UI)
+  js/charts.js        inline-SVG donut, bars, currency strip
+  js/app.js           screens, forms, lock, onboarding
+app/src/main/java/com/moneymate/app/MainActivity.kt
+                      WebView host: file save/restore, back button, system-bar insets, theme bars, screen protection
+```
 
 ## Build the APK
 1. Install Android Studio (current stable) and Android SDK Platform 35.
@@ -10,10 +34,11 @@ A dark, offline-first personal finance tracker for Android. Supports Bahraini Di
 5. Android Studio will create the debug APK under `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## Privacy and limitations
-- All finance records are stored in the app's local WebView storage. No network permission or bank connection is included.
-- Uninstalling the app or clearing its storage can erase records. Use Settings > Backup data regularly.
-- The BHD/INR rate is a manually editable estimate (default 1 BHD = 240 INR (approximate; update it in Settings)), not a live exchange quote.
-- This is a personal expense tracker, not a bank, investment, tax, or accounting service.
+- All records are stored in the app's local WebView storage. There is no network permission, account, bank connection or analytics.
+- Uninstalling or clearing app data erases records. Use Settings > Back up regularly; the app reminds you after 30 days.
+- Exchange rates are estimates you edit in Settings. They are never fetched live.
+- The PIN is a privacy lock for the app screen, not encryption of the stored data.
+- A personal tracker, not a bank, tax or accounting service.
 
 ## Build APK directly with GitHub Actions (no Android Studio needed)
 
@@ -26,48 +51,3 @@ A dark, offline-first personal finance tracker for Android. Supports Bahraini Di
 
 You can also run the workflow manually from Actions > Build MoneyMate APK > Run workflow.
 
-## App icon
-
-- `assets/moneymate-app-icon.png` is the full-size app icon artwork.
-- Android launcher icon sizes and the adaptive icon declaration are included under `app/src/main/res/`.
-
-## Build configuration note
-
-Java source/target compatibility and Kotlin JVM target are both set to Java 17
-to avoid the `Inconsistent JVM-target compatibility` error in GitHub Actions.
-
-## Launcher icon fix (v1.0.1)
-
-The adaptive launcher icon now uses a dedicated `drawable/ic_launcher_foreground.png`
-resource and a separate background color. This avoids the previous self-reference
-between `mipmap/ic_launcher.xml` and `mipmap/ic_launcher.png`. Version code is bumped
-to 2 so the new APK can update the installed app.
-
-## Launcher icon correction (v1.0.2)
-
-The Android 8+ adaptive icon now references a dedicated vector drawable
-(`drawable/ic_launcher_foreground.xml`) rather than referencing the launcher
-mipmap itself. This removes the recursive resource reference that caused the
-generic Android robot icon to appear. Legacy PNG launcher icons remain included.
-
-## Premium launcher artwork (v1.0.3)
-
-Added the premium MoneyMate wallet/coins/growth artwork as the Android launcher
-foreground and as a full-size brand asset in `assets/`. The adaptive icon points
-to `@drawable/ic_launcher_foreground`; legacy launcher density PNGs are updated.
-The version code is incremented to 4 for installing this build as an app update.
-
-## User-selected launcher icon (v1.0.4)
-
-The launcher icon has been replaced with the exact wallet image supplied by the
-user. The source crop is included at `assets/moneymate-user-selected-icon.png`.
-Adaptive and legacy density launcher resources are updated. Version code is 5
-so this APK can update the already installed MoneyMate app.
-
-## Duplicate resource build fix (v1.0.5)
-
-The adaptive launcher icon now references the uniquely named drawable
-`@drawable/moneymate_icon_foreground`. This avoids a resource-name collision
-with any older `ic_launcher_foreground.xml` file that may still exist in a
-GitHub repository after uploading by replacement/merge. The selected wallet
-artwork and legacy launcher density icons are retained.
